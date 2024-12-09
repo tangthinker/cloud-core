@@ -1,0 +1,43 @@
+
+
+POST http://{{url}}/api/v1/storage/ls
+Content-Type: application/json
+
+{
+  "path" : "/"
+}
+
+###
+
+POST http://{{url}}/api/v1/storage/get
+Content-Type: application/json
+
+{
+  "path" : "/main.go"
+}
+
+
+###
+
+GET http://{{url}}/api/v1/storage/download?filepath=/main.go
+
+
+###
+
+POST http://{{url}}/api/v1/storage/upload
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="main.go"
+
+< ../main.go
+--boundary
+Content-Disposition: form-data; name="path";
+
+/internal/
+--boundary
+Content-Disposition: form-data; name="filename";
+
+test-upload-main.go
+--boundary--
+###
