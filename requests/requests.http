@@ -9,12 +9,7 @@ Content-Type: application/json
 
 ###
 
-POST http://{{url}}/api/v1/storage/get
-Content-Type: application/json
-
-{
-  "path" : "/main.go"
-}
+GET http://{{url}}/api/v1/storage/get?path=/白板文件 (28).png
 
 
 ###

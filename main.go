@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/tangthinker/cloud-core/api/storage"
 	"log"
 )
@@ -15,10 +16,11 @@ func main() {
 	})
 
 	apiGroup := app.Group("/api/v1/storage/")
+	apiGroup.Use(cors.New())
 	api := storage.NewApi("/Users/tal/code/GoProject/cloud-core")
 
 	apiGroup.Post("/ls", api.LS)
-	apiGroup.Post("/get", api.Get)
+	apiGroup.Get("/get", api.Get)
 	apiGroup.Post("/stat", api.Stat)
 	apiGroup.Get("/download", api.Download)
 	apiGroup.Post("/upload", api.Upload)

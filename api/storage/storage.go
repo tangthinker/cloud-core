@@ -47,13 +47,9 @@ func (a *Api) LS(ctx *fiber.Ctx) error {
 }
 
 func (a *Api) Get(ctx *fiber.Ctx) error {
-	var req GetReq
-	if ctx.BodyParser(&req) != nil {
-		ctx.Status(fiber.StatusBadRequest)
-		return nil
-	}
+	path := ctx.Query("path")
 
-	utils, err := a.baseStorage.Get(req.Path)
+	utils, err := a.baseStorage.Get(path)
 	if err != nil {
 		return ctx.JSON(BaseResp{
 			Code: 1,
@@ -63,7 +59,7 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 
 	// base64 编码
 	var base64Data = make([]byte, base64.URLEncoding.EncodedLen(len(utils)))
-	base64.URLEncoding.Encode(base64Data, utils)
+	base64.StdEncoding.Encode(base64Data, utils)
 
 	return ctx.JSON(BaseResp{
 		Code: 0,
