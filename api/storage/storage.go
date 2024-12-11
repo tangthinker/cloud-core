@@ -1,8 +1,10 @@
 package storage
 
 import (
+	"bytes"
 	"encoding/base64"
 	"fmt"
+	"github.com/disintegration/imaging"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tangthinker/cloud-core/pkg/storage"
 	"mime"
@@ -60,6 +62,49 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 	// base64 编码
 	var base64Data = make([]byte, base64.URLEncoding.EncodedLen(len(utils)))
 	base64.StdEncoding.Encode(base64Data, utils)
+
+	return ctx.JSON(BaseResp{
+		Code: 0,
+		Msg:  "success",
+		Data: string(base64Data),
+	})
+}
+
+func (a *Api) GetThumbnail(ctx *fiber.Ctx) error {
+	path := ctx.Query("filepath")
+
+	utils, err := a.baseStorage.Get(path)
+	if err != nil {
+		return ctx.JSON(BaseResp{
+			Code: 1,
+			Msg:  "get failed: " + err.Error(),
+		})
+	}
+
+	src, err := imaging.Decode(bytes.NewReader(utils))
+	if err != nil {
+		return ctx.JSON(BaseResp{
+			Code: 1,
+			Msg:  "decode failed: " + err.Error(),
+		})
+	}
+
+	// 生成缩略图
+	thumbnail := imaging.Thumbnail(src, 200, 100, imaging.Lanczos)
+
+	var thuBuff bytes.Buffer
+	if err := imaging.Encode(&thuBuff, thumbnail, imaging.JPEG); err != nil {
+		return ctx.JSON(BaseResp{
+			Code: 1,
+			Msg:  "encode failed: " + err.Error(),
+		})
+	}
+
+	b := thuBuff.Bytes()
+
+	// base64 编码
+	var base64Data = make([]byte, base64.URLEncoding.EncodedLen(len(b)))
+	base64.StdEncoding.Encode(base64Data, b)
 
 	return ctx.JSON(BaseResp{
 		Code: 0,

@@ -21,6 +21,7 @@ func main() {
 
 	apiGroup.Post("/ls", api.LS)
 	apiGroup.Get("/get", api.Get)
+	apiGroup.Get("get-thumbnail", api.GetThumbnail)
 	apiGroup.Post("/stat", api.Stat)
 	apiGroup.Get("/download", api.Download)
 	apiGroup.Post("/upload", api.Upload)
