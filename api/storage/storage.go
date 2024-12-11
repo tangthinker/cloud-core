@@ -47,7 +47,7 @@ func (a *Api) LS(ctx *fiber.Ctx) error {
 }
 
 func (a *Api) Get(ctx *fiber.Ctx) error {
-	path := ctx.Query("path")
+	path := ctx.Query("filepath")
 
 	utils, err := a.baseStorage.Get(path)
 	if err != nil {

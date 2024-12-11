@@ -17,7 +17,7 @@ func main() {
 
 	apiGroup := app.Group("/api/v1/storage/")
 	apiGroup.Use(cors.New())
-	api := storage.NewApi("/Users/tal/code/GoProject/cloud-core")
+	api := storage.NewApi("/Users/tal/Downloads")
 
 	apiGroup.Post("/ls", api.LS)
 	apiGroup.Get("/get", api.Get)

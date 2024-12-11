@@ -9,12 +9,12 @@ Content-Type: application/json
 
 ###
 
-GET http://{{url}}/api/v1/storage/get?path=/白板文件 (28).png
+GET http://{{url}}/api/v1/storage/get?filepath=/白板文件 (28).png
 
 
 ###
 
-GET http://{{url}}/api/v1/storage/download?filepath=/main.go
+GET http://{{url}}/api/v1/storage/download?filepath=/白板文件 (28).png
 
 
 ###
