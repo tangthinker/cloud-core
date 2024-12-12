@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/tangthinker/cloud-core/pkg/storage"
 	"mime"
+	"strconv"
 )
 
 type BaseResp struct {
@@ -72,6 +73,18 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 
 func (a *Api) GetThumbnail(ctx *fiber.Ctx) error {
 	path := ctx.Query("filepath")
+	width := ctx.Query("width", "200")
+	height := ctx.Query("height", "100")
+
+	widthNum, err := strconv.Atoi(width)
+	if err != nil {
+		widthNum = 200
+	}
+
+	heightNum, err := strconv.Atoi(height)
+	if err != nil {
+		heightNum = 100
+	}
 
 	utils, err := a.baseStorage.Get(path)
 	if err != nil {
@@ -90,7 +103,7 @@ func (a *Api) GetThumbnail(ctx *fiber.Ctx) error {
 	}
 
 	// 生成缩略图
-	thumbnail := imaging.Thumbnail(src, 200, 100, imaging.Lanczos)
+	thumbnail := imaging.Thumbnail(src, widthNum, heightNum, imaging.Lanczos)
 
 	var thuBuff bytes.Buffer
 	if err := imaging.Encode(&thuBuff, thumbnail, imaging.JPEG); err != nil {
