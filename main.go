@@ -9,7 +9,9 @@ import (
 
 func main() {
 
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		BodyLimit: 800 * 1024 * 1024, // 800MB
+	})
 
 	app.Static("/", "./public")
 
@@ -19,7 +21,7 @@ func main() {
 
 	apiGroup := app.Group("/api/v1/storage/")
 	apiGroup.Use(cors.New())
-	api := storage.NewApi("/Users/tal/Downloads")
+	api := storage.NewApi("D:/Website/freegeektime")
 
 	apiGroup.Post("/ls", api.LS)
 	apiGroup.Get("/get", api.Get)
