@@ -11,6 +11,8 @@ func main() {
 
 	app := fiber.New()
 
+	app.Static("/", "./public")
+
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("Hello, World!")
 	})
