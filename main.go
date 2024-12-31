@@ -13,15 +13,13 @@ func main() {
 		BodyLimit: 800 * 1024 * 1024, // 800MB
 	})
 
-	app.Static("/", "./public")
-
 	app.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("Hello, World!")
 	})
 
 	apiGroup := app.Group("/api/v1/storage/")
 	apiGroup.Use(cors.New())
-	api := storage.NewApi("D:/Website/freegeektime")
+	api := storage.NewApi("/home/tangthinker/Downloads")
 
 	apiGroup.Post("/ls", api.LS)
 	apiGroup.Get("/get", api.Get)

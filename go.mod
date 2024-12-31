@@ -3,9 +3,12 @@ module github.com/tangthinker/cloud-core
 go 1.22.5
 
 require (
+	github.com/disintegration/imaging v1.6.2
+	github.com/gofiber/fiber/v2 v2.52.5
+)
+
+require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/disintegration/imaging v1.6.2 // indirect
-	github.com/gofiber/fiber/v2 v2.52.5 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
