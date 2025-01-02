@@ -13,7 +13,7 @@ GET http://{{url}}/api/v1/storage/get?filepath=/2024/2024-01-01/IMG_0001.JPG
 
 ###
 
-GET http://{{url}}/api/v1/storage/get-thumbnail?width=800&height=400&filepath=Users/tal/Downloads/推荐系统优化方案 (1).png
+GET http://{{url}}/api/v1/storage/get-thumbnail?width=800&height=400&filepath=/推荐系统优化方案 (1).png
 
 
 ###
