@@ -15,13 +15,13 @@ func main() {
 		BodyLimit: 800 * 1024 * 1024, // 800MB
 	})
 
-	loggingFile, err := os.OpenFile("requests.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	loggingFile, err := os.OpenFile("/home/tangthinker/code/go-projects/cloud-core/requests.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	app.Use(logger.New(logger.Config{
-		Format:     "${time} ${method} ${path} - ${ip} - ${status} - ${latency}\n body: ${body}\n",
+		Format:     "${time} ${method} ${path} - ${ip} - ${status} - ${latency}\nn",
 		TimeFormat: "2006-01-02 15:04:05",
 		TimeZone:   "Local",
 		Output:     loggingFile,
