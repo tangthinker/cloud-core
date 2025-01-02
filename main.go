@@ -33,7 +33,7 @@ func main() {
 
 	apiGroup := app.Group("/api/v1/storage/")
 	apiGroup.Use(cors.New())
-	api := storage.NewApi("/home/tangthinker/Downloads")
+	api := storage.NewApi("/home/tangthinker/backups")
 
 	apiGroup.Post("/ls", api.LS)
 	apiGroup.Get("/get", api.Get)
