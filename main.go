@@ -22,7 +22,7 @@ func main() {
 	}
 
 	app.Use(logger.New(logger.Config{
-		Format:     "${time} ${method} ${path} - ${ip} - ${status} - ${latency}\nn",
+		Format:     "${time} ${method} ${path} - ${ip} - ${status} - ${latency}\n",
 		TimeFormat: "2006-01-02 15:04:05",
 		TimeZone:   "Local",
 		Output:     loggingFile,
