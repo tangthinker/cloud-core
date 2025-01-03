@@ -1,0 +1,47 @@
+
+POST http://{{url}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "uid" : "tangthinker",
+  "password" : "333"
+}
+
+###
+
+POST http://{{url}}/api/v1/auth/register
+Content-Type: application/json
+X-tangthinker-secret: loveVG
+
+{
+  "uid" : "tangthinker",
+  "password" : "333"
+}
+
+###
+
+POST http://{{url}}/api/v1/auth/modify-password
+Content-Type: application/json
+X-tangthinker-secret: loveVG
+
+{
+  "uid" : "tangthinker",
+  "old_password" : "333",
+  "new_password" : "444"
+}
+
+###
+POST http://{{url}}/api/v1/auth/uid-unique
+Content-Type: application/json
+
+{
+  "uid" : "tangthinker"
+}
+
+###
+POST http://{{url}}/api/v1/auth/token-valid
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzU4NzIyMjUsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM1ODcyMTY1fQ.24shutlYJCs4hP-TjyiUii7YUMf1WUoaqJ0BAk0u6PA"
+}
