@@ -10,17 +10,17 @@ func TokenValid(ctx *fiber.Ctx) error {
 	headers := ctx.GetReqHeaders()
 	if len(headers) == 0 {
 		ctx.Status(fiber.StatusForbidden)
-		return nil
+		return ctx.SendString("Forbidden: Invalid Token")
 	}
 	authorization := headers["Authorization"]
 	if len(authorization) == 0 {
 		ctx.Status(fiber.StatusForbidden)
-		return nil
+		return ctx.SendString("Forbidden: Invalid Token")
 	}
 	uid, err := pkg.TokenValid(authorization[0])
 	if err != nil {
 		ctx.Status(fiber.StatusForbidden)
-		return nil
+		return ctx.SendString("Forbidden: Invalid Token")
 	}
 
 	fmt.Println("authorization successful", uid)
