@@ -34,7 +34,7 @@ func main() {
 
 	apiGroup := app.Group("/api/v1/storage/", middleware.TokenValid)
 
-	api := storage.NewApi("/User/tal/Downloads")
+	api := storage.NewApi("/Users/tal/Downloads")
 
 	apiGroup.Post("/ls", api.LS)
 	apiGroup.Get("/get", api.Get)

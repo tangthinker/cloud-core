@@ -46,6 +46,8 @@ github.com/tangthinker/user-center v1.0.2 h1:iQaeUel32hWqd7i3woF19+hGCJWhOgX59ns
 github.com/tangthinker/user-center v1.0.2/go.mod h1:WWfrQY1e/KtS7y0m4HxR1JmUD4ngsfG9dREyNvRXj80=
 github.com/tangthinker/user-center v1.0.3 h1:b0mzHCL31vICbtuqFINNt22HyBycGonBBs3Nb63w5vA=
 github.com/tangthinker/user-center v1.0.3/go.mod h1:WWfrQY1e/KtS7y0m4HxR1JmUD4ngsfG9dREyNvRXj80=
+github.com/tangthinker/user-center v1.0.4 h1:G7ejEawTXBqBS+GWoZ2WXqO9urFV6cJQnE8N/EM2d6A=
+github.com/tangthinker/user-center v1.0.4/go.mod h1:WWfrQY1e/KtS7y0m4HxR1JmUD4ngsfG9dREyNvRXj80=
 github.com/tinylib/msgp v1.1.8/go.mod h1:qkpG+2ldGg4xRFmx+jfTvZPxfGFhi64BcnL9vkCm/Tw=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=

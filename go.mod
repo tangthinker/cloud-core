@@ -22,7 +22,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.22 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/tangthinker/jwt-model v1.0.0 // indirect
-	github.com/tangthinker/user-center v1.0.3 // indirect
+	github.com/tangthinker/user-center v1.0.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.55.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect

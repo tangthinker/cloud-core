@@ -14,7 +14,7 @@ Content-Type: application/json
 X-tangthinker-secret: loveVG
 
 {
-  "uid" : "tangthinker",
+  "uid" : "vigor",
   "password" : "333"
 }
 
@@ -43,5 +43,5 @@ POST http://{{url}}/api/v1/auth/token-valid
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzU4NzIyMjUsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM1ODcyMTY1fQ.24shutlYJCs4hP-TjyiUii7YUMf1WUoaqJ0BAk0u6PA"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzU4NzU5NzYsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM1ODc1OTE2fQ.6f-QlMgvv1FfCXsRgCOMVs8CgbWORlRr02plqeO60hw"
 }
