@@ -32,7 +32,7 @@ func main() {
 		return ctx.SendString("Hello, World!")
 	})
 
-	apiGroup := app.Group("/api/v1/storage/", middleware.TokenValid)
+	apiGroup := app.Group("/api/v1/storage/", middleware.TokenValid, middleware.ContentEncrypt)
 
 	api := storage.NewApi("/home/tangthinker/backups")
 

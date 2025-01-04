@@ -25,7 +25,9 @@ func TokenValid(ctx *fiber.Ctx) error {
 
 	fmt.Println("authorization successful", uid)
 
-	ctx.Set("uid", uid)
+	ctx.Locals("uid", uid)
+
+	ctx.Locals("token", authorization[0])
 
 	return ctx.Next()
 
