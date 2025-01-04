@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tangthinker/user-center/pkg"
 )
@@ -22,8 +21,6 @@ func TokenValid(ctx *fiber.Ctx) error {
 		ctx.Status(fiber.StatusForbidden)
 		return ctx.SendString("Forbidden: Invalid Token")
 	}
-
-	fmt.Println("authorization successful", uid)
 
 	ctx.Locals("uid", uid)
 
