@@ -2,7 +2,7 @@
 
 POST http://{{url}}/api/v1/storage/ls
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYwNDc4ODcsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM1OTYxNDg3fQ.RmJ96XR-2PQcBYnPxJrHvtqZqAUXtAwJz8IsybOYdjM
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYyMTkxNDAsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM2MTMyNzQwfQ.n26ozFUDxO8POZKiW52vjXg4sM9qiACCbf9VewLObKM
 
 {
   "path" : "/"
@@ -19,7 +19,9 @@ GET http://{{url}}/api/v1/storage/get-thumbnail?width=800&height=400&filepath=/�
 
 ###
 
-GET http://{{url}}/api/v1/storage/download?filepath=/白板文件 (28).png
+GET http://{{url}}/api/v1/storage/download?filepath=/2024-12-19/V20241004-075217.mp4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYyMTkxNDAsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM2MTMyNzQwfQ.n26ozFUDxO8POZKiW52vjXg4sM9qiACCbf9VewLObKM
+
 
 
 ###
