@@ -29,6 +29,7 @@ type service struct {
 	TransList  map[string]*TransItem
 	accessLock sync.RWMutex
 	storePath  string
+	rootPath   string
 }
 
 func NewService(root string) Service {
@@ -38,6 +39,7 @@ func NewService(root string) Service {
 	s := &service{
 		TransList: make(map[string]*TransItem),
 		storePath: storePath,
+		rootPath:  root,
 	}
 	s.clearInterval()
 	return s
@@ -55,7 +57,7 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 	filenameWithoutSuffix := strings.Split(filename, ".")[0]
 
 	newTransItem := &TransItem{
-		InFileName:  filepath,
+		InFileName:  s.rootPath + "/" + filepath,
 		OutFileName: s.storePath + filenameWithoutSuffix + ".m3u8",
 		Filename:    filenameWithoutSuffix,
 		Progress:    "0.00%",

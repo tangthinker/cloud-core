@@ -43,3 +43,6 @@ Content-Disposition: form-data; name="filename";
 test-upload-main-1.go
 --boundary--
 ###
+
+GET http://{{url}}/api/v1/storage/m3u8-state?filepath=/2024-12-19/MVI_4221.MP4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYzMjY2OTgsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM2MjQwMjk4fQ.k6FWCSBu-5iCXS3eAnkKd-378QHJ03pFXBrSMaprDYo
