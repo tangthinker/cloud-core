@@ -7,6 +7,7 @@ import (
 	"github.com/disintegration/imaging"
 	"github.com/gofiber/fiber/v2"
 	"github.com/tangthinker/cloud-core/pkg/storage"
+	"github.com/tangthinker/cloud-core/pkg/video_trans"
 	"mime"
 	"strconv"
 )
@@ -18,12 +19,14 @@ type BaseResp struct {
 }
 
 type Api struct {
-	baseStorage storage.Storage
+	baseStorage  storage.Storage
+	transService video_trans.Service
 }
 
 func NewApi(rootPath string) *Api {
 	return &Api{
-		baseStorage: storage.NewCommonStorage(rootPath),
+		baseStorage:  storage.NewCommonStorage(rootPath),
+		transService: video_trans.NewService(rootPath),
 	}
 }
 
@@ -211,4 +214,23 @@ func (a *Api) Upload(ctx *fiber.Ctx) error {
 		Code: 0,
 		Msg:  "success",
 	})
+}
+
+func (a *Api) Trans2M3U8(ctx *fiber.Ctx) error {
+	filepath := ctx.Query("filepath")
+
+	state, err := a.transService.TransState(filepath)
+	if err != nil {
+		return ctx.JSON(BaseResp{
+			Code: 1,
+			Msg:  "access trans state failed: " + err.Error(),
+		})
+	}
+
+	return ctx.JSON(BaseResp{
+		Code: 0,
+		Msg:  "success",
+		Data: state,
+	})
+
 }

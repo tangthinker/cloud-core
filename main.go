@@ -38,10 +38,12 @@ func main() {
 
 	apiGroup.Post("/ls", api.LS)
 	apiGroup.Get("/get", api.Get)
-	apiGroup.Get("get-thumbnail", api.GetThumbnail)
+	apiGroup.Get("/get-thumbnail", api.GetThumbnail)
 	apiGroup.Post("/stat", api.Stat)
 	apiGroup.Get("/download", api.Download)
 	apiGroup.Post("/upload", api.Upload)
+
+	apiGroup.Get("/m3u8-state", api.Trans2M3U8)
 
 	authGroup := app.Group("/api/v1/")
 	pkg.RegisterUserCenter(authGroup)
