@@ -57,7 +57,7 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 	filenameWithoutSuffix := strings.Split(filename, ".")[0]
 
 	newTransItem := &TransItem{
-		InFileName:  s.rootPath + "/" + filepath,
+		InFileName:  s.rootPath + filepath,
 		OutFileName: s.storePath + filenameWithoutSuffix + ".m3u8",
 		Filename:    filenameWithoutSuffix,
 		Progress:    "0.00%",
