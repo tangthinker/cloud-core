@@ -1,6 +1,7 @@
 package video_trans
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"strings"
@@ -17,8 +18,9 @@ type TransItem struct {
 }
 
 const (
-	DefaultM3U8Path = "/tmp/m3u8/"
-	DefaultM3U8TTL  = time.Hour * 24
+	DefaultM3U8Path      = "/tmp/m3u8/"
+	DefaultM3U8TTL       = time.Hour * 24
+	DefaultStoreInterval = time.Minute * 5
 )
 
 type Service interface {
@@ -30,16 +32,25 @@ type service struct {
 	accessLock sync.RWMutex
 	storePath  string
 	rootPath   string
+	cachePath  string
 }
 
 func NewService(root string) Service {
 	storePath := root + DefaultM3U8Path
+	transList := make(map[string]*TransItem)
 	_ = os.MkdirAll(storePath, os.ModePerm)
 
+	cachePath := storePath + "cache.txt"
+	cacheFile, err := os.ReadFile(cachePath)
+	if err == nil {
+		_ = json.Unmarshal(cacheFile, &transList)
+	}
+
 	s := &service{
-		TransList: make(map[string]*TransItem),
+		TransList: transList,
 		storePath: storePath,
 		rootPath:  root,
+		cachePath: cachePath,
 	}
 	// s.clearInterval()
 	return s
@@ -102,6 +113,25 @@ func (s *service) clearInterval() {
 							_ = os.Remove(f)
 						}
 					}
+				}
+				s.accessLock.Unlock()
+			}
+		}
+	}()
+}
+
+func (s *service) storeInterval() {
+
+	ticker := time.NewTicker(DefaultStoreInterval)
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				s.accessLock.Lock()
+				cacheJson, err := json.Marshal(s.TransList)
+				if err == nil {
+					_ = os.WriteFile(s.cachePath, cacheJson, os.ModePerm)
 				}
 				s.accessLock.Unlock()
 			}
