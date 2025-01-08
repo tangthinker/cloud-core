@@ -140,7 +140,6 @@ func (s *service) storeInterval() {
 						finishList[k] = v
 					}
 				}
-				s.accessLock.RUnlock()
 				cacheJson, err := json.Marshal(finishList)
 				fmt.Println("storeInterval", string(cacheJson))
 				if err == nil {
@@ -149,6 +148,7 @@ func (s *service) storeInterval() {
 						fmt.Println("storeInterval", err)
 					}
 				}
+				s.accessLock.RUnlock()
 			}
 		}
 	}()
