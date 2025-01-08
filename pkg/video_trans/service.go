@@ -21,7 +21,7 @@ type TransItem struct {
 const (
 	DefaultM3U8Path      = "/tmp/m3u8/"
 	DefaultM3U8TTL       = time.Hour * 24
-	DefaultStoreInterval = time.Minute * 5
+	DefaultStoreInterval = time.Minute * 3
 )
 
 type Service interface {
