@@ -2,6 +2,7 @@ package video_trans
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -44,6 +45,7 @@ func NewService(root string) Service {
 	cacheFile, err := os.ReadFile(cachePath)
 	if err == nil {
 		_ = json.Unmarshal(cacheFile, &transList)
+		fmt.Println("from file:", transList)
 	}
 
 	s := &service{
@@ -130,8 +132,12 @@ func (s *service) storeInterval() {
 			case <-ticker.C:
 				s.accessLock.Lock()
 				cacheJson, err := json.Marshal(s.TransList)
+				fmt.Println("storeInterval", string(cacheJson))
 				if err == nil {
-					_ = os.WriteFile(s.cachePath, cacheJson, os.ModePerm)
+					err = os.WriteFile(s.cachePath, cacheJson, os.ModePerm)
+					if err != nil {
+						fmt.Println("storeInterval", err)
+					}
 				}
 				s.accessLock.Unlock()
 			}
