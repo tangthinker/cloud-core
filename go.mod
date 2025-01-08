@@ -7,6 +7,9 @@ toolchain go1.23.0
 require (
 	github.com/disintegration/imaging v1.6.2
 	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/tangthinker/user-center v1.0.5
+	github.com/tidwall/gjson v1.18.0
+	github.com/u2takey/ffmpeg-go v0.5.0
 )
 
 require (
@@ -24,11 +27,8 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.22 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/tangthinker/jwt-model v1.0.0 // indirect
-	github.com/tangthinker/user-center v1.0.4 // indirect
-	github.com/tidwall/gjson v1.18.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
-	github.com/u2takey/ffmpeg-go v0.5.0 // indirect
 	github.com/u2takey/go-utils v0.3.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.55.0 // indirect
