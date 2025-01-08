@@ -55,7 +55,7 @@ func NewService(root string) Service {
 		cachePath: cachePath,
 	}
 	// s.clearInterval()
-	//s.storeInterval()
+	s.storeInterval()
 	return s
 }
 
@@ -86,7 +86,9 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 
 		TransWithProgress(newTransItem.InFileName, newTransItem.OutFileName,
 			func(progress string) {
+				s.accessLock.Lock()
 				s.TransList[filepath].Progress = progress
+				s.accessLock.Unlock()
 			},
 			func(err error) {
 				s.accessLock.Lock()
@@ -131,7 +133,7 @@ func (s *service) storeInterval() {
 		for {
 			select {
 			case <-ticker.C:
-				s.accessLock.RUnlock()
+				s.accessLock.RLock()
 				finishList := make(map[string]*TransItem)
 				for k, v := range s.TransList {
 					if v.Progress == "100.00%" {
