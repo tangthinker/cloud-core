@@ -80,11 +80,11 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 		CreateAt:    time.Now(),
 	}
 
-	go func() {
+	s.accessLock.Lock()
+	s.TransList[filepath] = newTransItem
+	s.accessLock.Unlock()
 
-		s.accessLock.Lock()
-		s.TransList[filepath] = newTransItem
-		s.accessLock.Unlock()
+	go func(filepath string) {
 
 		TransWithProgress(newTransItem.InFileName, newTransItem.OutFileName,
 			func(progress string) {
@@ -97,7 +97,7 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 				delete(s.TransList, filepath)
 				s.accessLock.Unlock()
 			})
-	}()
+	}(filepath)
 
 	return *newTransItem, nil
 }
