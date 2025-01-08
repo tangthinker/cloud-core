@@ -41,7 +41,7 @@ func NewService(root string) Service {
 		storePath: storePath,
 		rootPath:  root,
 	}
-	s.clearInterval()
+	// s.clearInterval()
 	return s
 }
 
@@ -72,9 +72,7 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 
 		TransWithProgress(newTransItem.InFileName, newTransItem.OutFileName,
 			func(progress string) {
-				s.accessLock.Lock()
 				s.TransList[filepath].Progress = progress
-				s.accessLock.Unlock()
 			},
 			func(err error) {
 				s.accessLock.Lock()

@@ -68,18 +68,18 @@ func TempSock(totalDuration float64, onProgress func(progress string), onErr fun
 			if len(a) > 0 && len(a[len(a)-1]) > 0 {
 				c, _ := strconv.Atoi(a[len(a)-1][len(a[len(a)-1])-1])
 				cp = fmt.Sprintf("%.2f", float64(c)/totalDuration/1000000*100)
-				onProgress(cp + "%")
 			}
 			if strings.Contains(data, "progress=end") {
-				cp = "done"
+				cp = "100.00%"
 				onProgress("100.00%")
 			}
 			if cp == "" {
-				cp = ".0"
+				cp = "0.00%"
 				onProgress("0.00%")
 			}
 			if cp != progress {
 				progress = cp
+				onProgress(cp + "%")
 			}
 		}
 	}()
