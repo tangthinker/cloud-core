@@ -60,6 +60,8 @@ func NewService(root string) Service {
 }
 
 func (s *service) TransState(filepath string) (TransItem, error) {
+	fmt.Println("time: ", time.Now(), "filepath: ", filepath)
+
 	s.accessLock.RLock()
 	itemInMemory, ok := s.TransList[filepath]
 	s.accessLock.RUnlock()
