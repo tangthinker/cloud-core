@@ -82,6 +82,9 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 
 	s.accessLock.Lock()
 	s.TransList[filepath] = newTransItem
+	for k, v := range s.TransList {
+		fmt.Println("trans:", k, v)
+	}
 	s.accessLock.Unlock()
 
 	go func(filepath string) {
@@ -140,6 +143,7 @@ func (s *service) storeInterval() {
 				for k, v := range s.TransList {
 					if v.Progress == "100.00%" {
 						finishList[k] = v
+						fmt.Println("store:", k, v)
 					}
 				}
 				cacheJson, err := json.Marshal(finishList)
