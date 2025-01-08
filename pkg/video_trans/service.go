@@ -133,8 +133,15 @@ func (s *service) storeInterval() {
 		for {
 			select {
 			case <-ticker.C:
-				s.accessLock.Lock()
-				cacheJson, err := json.Marshal(s.TransList)
+				s.accessLock.RUnlock()
+				finishList := make(map[string]*TransItem)
+				for k, v := range s.TransList {
+					if v.Progress == "100.00%" {
+						finishList[k] = v
+					}
+				}
+				s.accessLock.RUnlock()
+				cacheJson, err := json.Marshal(finishList)
 				fmt.Println("storeInterval", string(cacheJson))
 				if err == nil {
 					err = os.WriteFile(s.cachePath, cacheJson, os.ModePerm)
@@ -142,7 +149,6 @@ func (s *service) storeInterval() {
 						fmt.Println("storeInterval", err)
 					}
 				}
-				s.accessLock.Unlock()
 			}
 		}
 	}()
