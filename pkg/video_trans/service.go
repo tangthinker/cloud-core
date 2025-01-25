@@ -34,6 +34,7 @@ type service struct {
 	storePath  string
 	rootPath   string
 	cachePath  string
+	ticker     *time.Ticker
 }
 
 func NewService(root string) Service {
@@ -54,7 +55,6 @@ func NewService(root string) Service {
 		rootPath:  root,
 		cachePath: cachePath,
 	}
-	// s.clearInterval()
 	s.storeInterval()
 	return s
 }
@@ -69,8 +69,9 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 		return *itemInMemory, nil
 	}
 
-	filename := strings.Split(filepath, "/")[len(strings.Split(filepath, "/"))-1]
-	filenameWithoutSuffix := strings.Split(filename, ".")[0]
+	// 使用filepath包安全地处理文件路径
+	filename := filepath.Base(filepath)
+	filenameWithoutSuffix := strings.TrimSuffix(filename, filepath.Ext(filename))
 
 	newTransItem := &TransItem{
 		InFileName:  s.rootPath + filepath,
@@ -88,6 +89,11 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 	s.accessLock.Unlock()
 
 	go func(filepath string) {
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Printf("TransState goroutine panic: %v, filepath: %s\n", err, filepath)
+			}
+		}()
 
 		TransWithProgress(newTransItem.InFileName, newTransItem.OutFileName,
 			func(progress string) {
@@ -98,6 +104,15 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 			func(err error) {
 				s.accessLock.Lock()
 				delete(s.TransList, filepath)
+				_ = os.Remove(newTransItem.OutFileName)
+				// 使用filepath.Join和filepath.Glob正确处理文件路径
+				pattern := filepath.Join(s.storePath, newTransItem.Filename+"*.ts")
+				deleteFiles, err := filepath.Glob(pattern)
+				if err == nil {
+					for _, f := range deleteFiles {
+						_ = os.Remove(f)
+					}
+				}
 				s.accessLock.Unlock()
 			})
 	}(filepath)
@@ -105,40 +120,24 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 	return *newTransItem, nil
 }
 
-func (s *service) clearInterval() {
-
-	ticker := time.NewTicker(DefaultM3U8TTL / 2)
-
-	go func() {
-		for {
-			select {
-			case <-ticker.C:
-				s.accessLock.Lock()
-				for k, v := range s.TransList {
-					if time.Since(v.CreateAt) > DefaultM3U8TTL {
-						delete(s.TransList, k)
-						_ = os.Remove(v.OutFileName)
-						deleteFiles, _ := filepath.Glob(s.storePath + v.Filename + "*.ts")
-						for _, f := range deleteFiles {
-							_ = os.Remove(f)
-						}
-					}
-				}
-				s.accessLock.Unlock()
-			}
-		}
-	}()
-}
-
 func (s *service) storeInterval() {
-
-	ticker := time.NewTicker(DefaultStoreInterval)
+	s.ticker = time.NewTicker(DefaultStoreInterval)
 
 	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Printf("storeInterval panic: %v\n", err)
+			}
+			// 确保ticker被关闭
+			if s.ticker != nil {
+				s.ticker.Stop()
+			}
+		}()
+
 		for {
 			select {
-			case <-ticker.C:
-				s.accessLock.RLock()
+			case <-s.ticker.C:
+				s.accessLock.Lock()
 				finishList := make(map[string]*TransItem)
 				for k, v := range s.TransList {
 					if v.Progress == "100.00%" {
@@ -154,7 +153,7 @@ func (s *service) storeInterval() {
 						fmt.Println("storeInterval", err)
 					}
 				}
-				s.accessLock.RUnlock()
+				s.accessLock.Unlock()
 			}
 		}
 	}()

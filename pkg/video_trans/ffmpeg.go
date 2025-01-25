@@ -49,6 +49,14 @@ func TempSock(totalDuration float64, onProgress func(progress string), onErr fun
 	}
 
 	go func() {
+
+		defer func() {
+			if err := recover(); err!= nil {
+				fmt.Printf("TempSock goroutine panic: %v\n", err)
+			}
+		}()
+
+
 		re := regexp.MustCompile(`out_time_ms=(\d+)`)
 		fd, err := l.Accept()
 		if err != nil {
