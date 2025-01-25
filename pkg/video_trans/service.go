@@ -59,22 +59,22 @@ func NewService(root string) Service {
 	return s
 }
 
-func (s *service) TransState(filepath string) (TransItem, error) {
-	fmt.Println("time: ", time.Now(), "filepath: ", filepath)
+func (s *service) TransState(filePath string) (TransItem, error) {
+	fmt.Println("time: ", time.Now(), "filepath: ", filePath)
 
 	s.accessLock.RLock()
-	itemInMemory, ok := s.TransList[filepath]
+	itemInMemory, ok := s.TransList[filePath]
 	s.accessLock.RUnlock()
 	if ok {
 		return *itemInMemory, nil
 	}
 
 	// 使用filepath包安全地处理文件路径
-	filename := filepath.Base(filepath)
+	filename := filepath.Base(filePath)
 	filenameWithoutSuffix := strings.TrimSuffix(filename, filepath.Ext(filename))
 
 	newTransItem := &TransItem{
-		InFileName:  s.rootPath + filepath,
+		InFileName:  s.rootPath + filePath,
 		OutFileName: s.storePath + filenameWithoutSuffix + ".m3u8",
 		Filename:    filenameWithoutSuffix,
 		Progress:    "0.00%",
@@ -82,28 +82,28 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 	}
 
 	s.accessLock.Lock()
-	s.TransList[filepath] = newTransItem
+	s.TransList[filePath] = newTransItem
 	for k, v := range s.TransList {
 		fmt.Println("trans:", k, v)
 	}
 	s.accessLock.Unlock()
 
-	go func(filepath string) {
+	go func(filePath string) {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Printf("TransState goroutine panic: %v, filepath: %s\n", err, filepath)
+				fmt.Printf("TransState goroutine panic: %v, filepath: %s\n", err, filePath)
 			}
 		}()
 
 		TransWithProgress(newTransItem.InFileName, newTransItem.OutFileName,
 			func(progress string) {
 				s.accessLock.Lock()
-				s.TransList[filepath].Progress = progress
+				s.TransList[filePath].Progress = progress
 				s.accessLock.Unlock()
 			},
 			func(err error) {
 				s.accessLock.Lock()
-				delete(s.TransList, filepath)
+				delete(s.TransList, filePath)
 				_ = os.Remove(newTransItem.OutFileName)
 				// 使用filepath.Join和filepath.Glob正确处理文件路径
 				pattern := filepath.Join(s.storePath, newTransItem.Filename+"*.ts")
@@ -115,7 +115,7 @@ func (s *service) TransState(filepath string) (TransItem, error) {
 				}
 				s.accessLock.Unlock()
 			})
-	}(filepath)
+	}(filePath)
 
 	return *newTransItem, nil
 }
