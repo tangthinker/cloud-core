@@ -1,5 +1,5 @@
 [core]
 port = 9999
-root-path = '/Users/tal/Downloads'
-storage-path = '/Users/tal/Downloads'
-log-file-path = './request.log'
+root-path = '/home/tangthinker/code/go-projects/cloud-core'
+storage-path = '/home/tangthinker/backups'
+log-file-path = '/home/tangthinker/code/go-projects/cloud-core/request.log'
