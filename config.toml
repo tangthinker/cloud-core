@@ -1,0 +1,5 @@
+[core]
+port = 9999
+root-path = '/Users/tal/Downloads'
+storage-path = '/Users/tal/Downloads'
+log-file-path = './request.log'

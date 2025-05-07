@@ -2,7 +2,7 @@
 
 POST http://{{url}}/api/v1/storage/ls
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYyMTkxNDAsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM2MTMyNzQwfQ.n26ozFUDxO8POZKiW52vjXg4sM9qiACCbf9VewLObKM
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDc5MDI5NzYsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzQ2NjA2OTc2fQ.TLuSl4GyaHKrYRtIA2M1mJi7TIxA55afs-6AVMylSkw
 
 {
   "path" : "/"
