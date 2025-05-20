@@ -47,7 +47,7 @@ func main() {
 		return ctx.SendString("Hello, World!")
 	})
 
-	apiGroup := app.Group("/api/v1/storage/", middleware.TokenValid, middleware.ContentEncrypt)
+	apiGroup := app.Group("/api/v1/storage/", middleware.TokenValid)
 
 	api := storage.NewApi(storagePath)
 

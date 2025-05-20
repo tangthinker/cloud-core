@@ -55,7 +55,7 @@ func NewService(root string) Service {
 		rootPath:  root,
 		cachePath: cachePath,
 	}
-	s.storeInterval()
+	// s.storeInterval()
 	return s
 }
 
