@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/disintegration/imaging"
 	"github.com/gofiber/fiber/v2"
+	"github.com/tangthinker/cloud-core/helper"
 	"github.com/tangthinker/cloud-core/pkg/storage"
 	"github.com/tangthinker/cloud-core/pkg/video_trans"
 	"mime"
@@ -106,7 +107,13 @@ func (a *Api) GetThumbnail(ctx *fiber.Ctx) error {
 	}
 
 	// 生成缩略图
-	thumbnail := imaging.Thumbnail(src, widthNum, heightNum, imaging.Lanczos)
+	thumbnail, err := helper.GenerateThumbnail(src, widthNum, heightNum)
+	if err != nil {
+		return ctx.JSON(BaseResp{
+			Code: 1,
+			Msg:  "generate thumbnail failed: " + err.Error(),
+		})
+	}
 
 	var thuBuff bytes.Buffer
 	if err := imaging.Encode(&thuBuff, thumbnail, imaging.JPEG); err != nil {
