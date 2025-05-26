@@ -88,7 +88,7 @@ func (a *Api) GetThumbnail(ctx *fiber.Ctx) error {
 
 	heightNum, err := strconv.Atoi(height)
 	if err != nil {
-		heightNum = 100
+		heightNum = 200
 	}
 
 	thumbnail, err := a.thumbnailService.GetThumbnail(path, widthNum, heightNum)
