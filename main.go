@@ -8,8 +8,8 @@ import (
 	"github.com/tangthinker/cloud-core/api/storage"
 	"github.com/tangthinker/cloud-core/config"
 	"github.com/tangthinker/cloud-core/internal/db"
-	"github.com/tangthinker/cloud-core/internal/middleware"
-	"github.com/tangthinker/user-center/pkg"
+	"github.com/tangthinker/cloud-core/pkg"
+	userPkg "github.com/tangthinker/user-center/pkg"
 	"log"
 	"os"
 )
@@ -50,7 +50,7 @@ func main() {
 		return ctx.SendString("Hello, World!")
 	})
 
-	apiGroup := app.Group("/api/v1/storage/", middleware.TokenValid)
+	apiGroup := app.Group("/api/v1/storage/", pkg.TokenValid)
 
 	api := storage.NewApi(storagePath)
 
@@ -64,7 +64,7 @@ func main() {
 	apiGroup.Get("/m3u8-state", api.Trans2M3U8)
 
 	authGroup := app.Group("/api/v1/")
-	pkg.RegisterUserCenter(authGroup, rootPath)
+	userPkg.RegisterUserCenter(authGroup, rootPath)
 
 	log.Fatal(app.Listen(":" + cnf.ServicePort()))
 
