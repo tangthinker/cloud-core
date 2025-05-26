@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/tangthinker/cloud-core/api/storage"
 	"github.com/tangthinker/cloud-core/config"
+	"github.com/tangthinker/cloud-core/internal/db"
 	"github.com/tangthinker/cloud-core/internal/middleware"
 	"github.com/tangthinker/user-center/pkg"
 	"log"
@@ -26,6 +27,8 @@ func main() {
 	fmt.Println("logFilePath:", logFilePath)
 	fmt.Println("storagePath:", storagePath)
 	fmt.Println("rootPath:", rootPath)
+
+	db.SetDBPath(rootPath)
 
 	app := fiber.New(fiber.Config{
 		BodyLimit: 800 * 1024 * 1024, // 800MB

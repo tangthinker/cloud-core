@@ -1,16 +1,15 @@
 package storage
 
 import (
-	"bytes"
 	"encoding/base64"
 	"fmt"
-	"github.com/disintegration/imaging"
-	"github.com/gofiber/fiber/v2"
-	"github.com/tangthinker/cloud-core/helper"
-	"github.com/tangthinker/cloud-core/pkg/storage"
-	"github.com/tangthinker/cloud-core/pkg/video_trans"
 	"mime"
 	"strconv"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/tangthinker/cloud-core/internal/service"
+	"github.com/tangthinker/cloud-core/pkg/storage"
+	"github.com/tangthinker/cloud-core/pkg/video_trans"
 )
 
 type BaseResp struct {
@@ -20,14 +19,16 @@ type BaseResp struct {
 }
 
 type Api struct {
-	baseStorage  storage.Storage
-	transService video_trans.Service
+	baseStorage      storage.Storage
+	transService     video_trans.Service
+	thumbnailService *service.ThumbnailService
 }
 
 func NewApi(rootPath string) *Api {
 	return &Api{
-		baseStorage:  storage.NewCommonStorage(rootPath),
-		transService: video_trans.NewService(rootPath),
+		baseStorage:      storage.NewCommonStorage(rootPath),
+		transService:     video_trans.NewService(rootPath),
+		thumbnailService: service.NewThumbnailService(rootPath),
 	}
 }
 
@@ -78,7 +79,7 @@ func (a *Api) Get(ctx *fiber.Ctx) error {
 func (a *Api) GetThumbnail(ctx *fiber.Ctx) error {
 	path := ctx.Query("filepath")
 	width := ctx.Query("width", "200")
-	height := ctx.Query("height", "100")
+	height := ctx.Query("height", "200")
 
 	widthNum, err := strconv.Atoi(width)
 	if err != nil {
@@ -90,49 +91,18 @@ func (a *Api) GetThumbnail(ctx *fiber.Ctx) error {
 		heightNum = 100
 	}
 
-	utils, err := a.baseStorage.Get(path)
+	thumbnail, err := a.thumbnailService.GetThumbnail(path, widthNum, heightNum)
 	if err != nil {
 		return ctx.JSON(BaseResp{
 			Code: 1,
-			Msg:  "get failed: " + err.Error(),
+			Msg:  "get thumbnail failed: " + err.Error(),
 		})
 	}
-
-	src, err := imaging.Decode(bytes.NewReader(utils))
-	if err != nil {
-		return ctx.JSON(BaseResp{
-			Code: 1,
-			Msg:  "decode failed: " + err.Error(),
-		})
-	}
-
-	// 生成缩略图
-	thumbnail, err := helper.GenerateThumbnail(src, widthNum, heightNum)
-	if err != nil {
-		return ctx.JSON(BaseResp{
-			Code: 1,
-			Msg:  "generate thumbnail failed: " + err.Error(),
-		})
-	}
-
-	var thuBuff bytes.Buffer
-	if err := imaging.Encode(&thuBuff, thumbnail, imaging.JPEG); err != nil {
-		return ctx.JSON(BaseResp{
-			Code: 1,
-			Msg:  "encode failed: " + err.Error(),
-		})
-	}
-
-	b := thuBuff.Bytes()
-
-	// base64 编码
-	var base64Data = make([]byte, base64.URLEncoding.EncodedLen(len(b)))
-	base64.StdEncoding.Encode(base64Data, b)
 
 	return ctx.JSON(BaseResp{
 		Code: 0,
 		Msg:  "success",
-		Data: string(base64Data),
+		Data: thumbnail,
 	})
 }
 

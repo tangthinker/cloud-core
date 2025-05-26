@@ -30,6 +30,9 @@ type Storage interface {
 	// Get 获取文件二进制
 	Get(path string) ([]byte, error)
 
+	// GetStream 获取文件流
+	GetStream(path string) (io.ReadCloser, error)
+
 	// Download 下载文件
 	Download(path string, writer io.Writer) error
 
@@ -139,6 +142,24 @@ func (c *CommonStorage) Get(path string) ([]byte, error) {
 	}
 
 	return b, nil
+}
+
+func (c *CommonStorage) GetStream(path string) (io.ReadCloser, error) {
+	realPath := c.realPath(path)
+	isDir, err := isDirectory(realPath)
+	if err != nil {
+		return nil, err
+	}
+	if isDir {
+		return nil, fmt.Errorf("path %s is a directory", path)
+	}
+
+	file, err := os.Open(realPath)
+	if err != nil {
+		return nil, err
+	}
+
+	return file, nil
 }
 
 func (c *CommonStorage) Download(path string, writer io.Writer) error {
