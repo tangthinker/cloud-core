@@ -3,11 +3,11 @@ package storage
 import (
 	"encoding/base64"
 	"fmt"
+	"github.com/tangthinker/cloud-core/pkg/service"
 	"mime"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/tangthinker/cloud-core/internal/service"
 	"github.com/tangthinker/cloud-core/pkg/storage"
 	"github.com/tangthinker/cloud-core/pkg/video_trans"
 )
