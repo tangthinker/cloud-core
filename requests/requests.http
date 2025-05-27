@@ -2,10 +2,10 @@
 
 POST http://{{url}}/api/v1/storage/ls
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDc5MDI5NzYsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzQ2NjA2OTc2fQ.TLuSl4GyaHKrYRtIA2M1mJi7TIxA55afs-6AVMylSkw
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk2MjM2MDIsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzQ4MzI3NjAyfQ.wPRzYo2uM9UX_HI2mAcfD25K2E68Ehi75BEtK1GUfR0
 
 {
-  "path" : "/"
+  "path" : "/测试1/run/"
 }
 
 ###

@@ -53,6 +53,8 @@ type Storage interface {
 
 	// Move 移动文件
 	Move(srcPath, dstPath string) error
+
+	RealPath(path string) string
 }
 
 type CommonStorage struct {
@@ -261,6 +263,11 @@ func (c *CommonStorage) Move(srcPath, dstPath string) error {
 	dstRealPath := c.realPath(dstPath)
 
 	return os.Rename(realFile, dstRealPath)
+}
+
+func (c *CommonStorage) RealPath(path string) string {
+	realPath := c.realPath(path)
+	return realPath
 }
 
 func (c *CommonStorage) realPath(path string) string {
