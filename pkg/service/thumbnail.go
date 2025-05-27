@@ -19,9 +19,9 @@ type ThumbnailService struct {
 	thumbnailCache *model.ThumbnailCacheModel
 }
 
-func NewThumbnailService(rootPath string) *ThumbnailService {
+func NewThumbnailService(storageService storage.Storage) *ThumbnailService {
 	return &ThumbnailService{
-		baseStorage:    storage.NewCommonStorage(rootPath),
+		baseStorage:    storageService,
 		thumbnailCache: model.NewThumbnailCacheModel(),
 	}
 }

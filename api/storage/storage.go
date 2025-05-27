@@ -25,10 +25,11 @@ type Api struct {
 }
 
 func NewApi(rootPath string) *Api {
+	storageService := storage.NewCommonStorage(rootPath)
 	return &Api{
-		baseStorage:      storage.NewCommonStorage(rootPath),
+		baseStorage:      storageService,
 		transService:     video_trans.NewService(rootPath),
-		thumbnailService: service.NewThumbnailService(rootPath),
+		thumbnailService: service.NewThumbnailService(storageService),
 	}
 }
 
