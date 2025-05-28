@@ -54,7 +54,7 @@ func (s *ThumbnailService) GetThumbnail(filepath string, imageWidth int, imageHe
 
 	var thumbnailBase64 string
 	if isVideo {
-		thumbnailBase64, err = s.generateVideoThumbnail(filepath, imageWidth, imageHeight)
+		thumbnailBase64, err = s.generateVideoThumbnail(s.baseStorage.RealPath(filepath), imageWidth, imageHeight)
 	} else {
 		thumbnailBase64, err = s.generateThumbnail(filepath, imageWidth, imageHeight)
 	}
