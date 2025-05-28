@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/disintegration/imaging"
 	"github.com/tangthinker/cloud-core/helper"
@@ -49,7 +50,14 @@ func (s *ThumbnailService) GetThumbnail(filepath string, imageWidth int, imageHe
 		return thumbnail.Base64Thumbnail, nil
 	}
 
-	thumbnailBase64, err := s.generateThumbnail(filepath, imageWidth, imageHeight)
+	isVideo := strings.HasSuffix(strings.ToLower(filepath), ".mp4")
+
+	var thumbnailBase64 string
+	if isVideo {
+		thumbnailBase64, err = s.generateVideoThumbnail(filepath, imageWidth, imageHeight)
+	} else {
+		thumbnailBase64, err = s.generateThumbnail(filepath, imageWidth, imageHeight)
+	}
 	if err != nil {
 		return "", err
 	}
@@ -70,6 +78,25 @@ func (s *ThumbnailService) GetThumbnail(filepath string, imageWidth int, imageHe
 	}
 
 	return thumbnailBase64, nil
+}
+
+func (s *ThumbnailService) generateVideoThumbnail(filepath string, imageWidth int, imageHeight int) (string, error) {
+	thumbnail, err := helper.GenerateVideoThumbnail(filepath, imageWidth, imageHeight)
+	if err != nil {
+		return "", err
+	}
+
+	var thuBuff bytes.Buffer
+	if err := imaging.Encode(&thuBuff, thumbnail, imaging.JPEG); err != nil {
+		return "", err
+	}
+
+	b := thuBuff.Bytes()
+
+	var base64Data = make([]byte, base64.URLEncoding.EncodedLen(len(b)))
+	base64.StdEncoding.Encode(base64Data, b)
+
+	return string(base64Data), nil
 }
 
 func (s *ThumbnailService) generateThumbnail(filepath string, imageWidth int, imageHeight int) (string, error) {
