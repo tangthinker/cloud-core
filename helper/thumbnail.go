@@ -42,14 +42,15 @@ func GenerateVideoThumbnail(filepath string, targetWidth, targetHeight int) (ima
 	// Construct FFmpeg command to extract a single frame at 1 second and output to stdout
 	cmd := exec.Command(
 		"ffmpeg",
-		"-ss", "1", // Seek to 1 second (放在 -i 前面更快)
-		"-i", filepath, // Input video file
-		"-vframes", "1", // Extract 1 frame
-		"-q:v", "2", // Set quality (2 is high quality for JPEG)
-		"-an",          // Disable audio
-		"-f", "image2", // Output format
-		"-vcodec", "mjpeg", // Output as JPEG
-		"pipe:1", // Output to stdout
+		"-noaccurate_seek",
+		"-i", filepath,
+		"-ss", "1",
+		"-vframes", "1",
+		"-q:v", "2",
+		"-an",
+		"-f", "image2",
+		"-vcodec", "mjpeg",
+		"pipe:",
 	)
 
 	// Capture FFmpeg stdout and stderr
