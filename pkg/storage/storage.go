@@ -31,7 +31,7 @@ type Storage interface {
 	Get(path string) ([]byte, error)
 
 	// GetStream 获取文件流
-	GetStream(path string) (io.ReadCloser, error)
+	GetStream(path string) (io.ReadSeekCloser, error)
 
 	// Download 下载文件
 	Download(path string, writer io.Writer) error
@@ -146,7 +146,7 @@ func (c *CommonStorage) Get(path string) ([]byte, error) {
 	return b, nil
 }
 
-func (c *CommonStorage) GetStream(path string) (io.ReadCloser, error) {
+func (c *CommonStorage) GetStream(path string) (io.ReadSeekCloser, error) {
 	realPath := c.realPath(path)
 	isDir, err := isDirectory(realPath)
 	if err != nil {
