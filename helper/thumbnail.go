@@ -5,9 +5,28 @@ import (
 	"fmt"
 	"image"
 	"os/exec"
+	"strings"
 
 	"github.com/disintegration/imaging"
+	"github.com/gen2brain/heic"
 )
+
+// DecodeImage decodes an image from bytes, supporting HEIC via github.com/gen2brain/heic if necessary.
+func DecodeImage(data []byte, filename string) (image.Image, error) {
+	if strings.HasSuffix(strings.ToLower(filename), ".heic") {
+		return DecodeHEIC(data)
+	}
+	return imaging.Decode(bytes.NewReader(data))
+}
+
+// DecodeHEIC decodes a HEIC image using github.com/gen2brain/heic.
+func DecodeHEIC(data []byte) (image.Image, error) {
+	img, err := heic.Decode(bytes.NewReader(data))
+	if err != nil {
+		return nil, fmt.Errorf("heic decode failed: %w", err)
+	}
+	return img, nil
+}
 
 // GenerateThumbnail generates a thumbnail from the source image with specified width and height,
 func GenerateThumbnail(source image.Image, targetWidth, targetHeight int) (image.Image, error) {

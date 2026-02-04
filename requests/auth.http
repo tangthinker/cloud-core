@@ -1,5 +1,5 @@
 
-POST http://{{url}}/api/v1/auth/login
+POST http://192.168.31.82:9999/api/v1/auth/login
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 
 ###
 
-POST http://{{url}}/api/v1/auth/register
+POST http://192.168.31.82:9999/api/v1/auth/register
 Content-Type: application/json
 X-tangthinker-secret: loveVG
 
@@ -20,7 +20,7 @@ X-tangthinker-secret: loveVG
 
 ###
 
-POST http://{{url}}/api/v1/auth/modify-password
+POST http://192.168.31.82:9999/api/v1/auth/modify-password
 Content-Type: application/json
 X-tangthinker-secret: loveVG
 
@@ -31,7 +31,7 @@ X-tangthinker-secret: loveVG
 }
 
 ###
-POST http://{{url}}/api/v1/auth/uid-unique
+POST http://192.168.31.82:9999/api/v1/auth/uid-unique
 Content-Type: application/json
 
 {
@@ -39,9 +39,9 @@ Content-Type: application/json
 }
 
 ###
-POST http://{{url}}/api/v1/auth/token-valid
+POST http://192.168.31.82:9999/api/v1/auth/token-valid
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYwNDc4ODcsImp0aSI6InRhbmd0aGlua2VyIiwiaWF0IjoxNzM1OTYxNDg3fQ.RmJ96XR-2PQcBYnPxJrHvtqZqAUXtAwJz8IsybOYdjM"
+  "token": "Thinker-v1-9606FCED1A8575C6FCF088581A2A0178E8AFC65641E846C98514847689156375"
 }

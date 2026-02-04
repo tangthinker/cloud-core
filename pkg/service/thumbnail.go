@@ -50,7 +50,7 @@ func (s *ThumbnailService) GetThumbnail(filepath string, imageWidth int, imageHe
 		return thumbnail.Base64Thumbnail, nil
 	}
 
-	isVideo := strings.HasSuffix(strings.ToLower(filepath), ".mp4")
+	isVideo := strings.HasSuffix(strings.ToLower(filepath), ".mp4") || strings.HasSuffix(strings.ToLower(filepath), ".mov")
 
 	var thumbnailBase64 string
 	if isVideo {
@@ -105,7 +105,7 @@ func (s *ThumbnailService) generateThumbnail(filepath string, imageWidth int, im
 		return "", err
 	}
 
-	src, err := imaging.Decode(bytes.NewReader(utils))
+	src, err := helper.DecodeImage(utils, filepath)
 	if err != nil {
 		return "", err
 	}

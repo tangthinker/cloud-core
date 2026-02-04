@@ -1,8 +1,6 @@
 module github.com/tangthinker/cloud-core
 
-go 1.22.6
-
-toolchain go1.23.0
+go 1.25
 
 require (
 	github.com/disintegration/imaging v1.6.2
@@ -16,7 +14,9 @@ require (
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/aws/aws-sdk-go v1.38.20 // indirect
+	github.com/ebitengine/purego v0.9.1 // indirect
 	github.com/fsnotify/fsnotify v1.8.0 // indirect
+	github.com/gen2brain/heic v0.4.9 // indirect
 	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -37,6 +37,7 @@ require (
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tangthinker/jwt-model v1.0.0 // indirect
+	github.com/tetratelabs/wazero v1.9.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/u2takey/go-utils v0.3.1 // indirect
