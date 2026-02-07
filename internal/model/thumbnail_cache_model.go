@@ -36,17 +36,6 @@ func (m *ThumbnailCacheModel) Get(filepath string) (*schema.ThumbnailCache, erro
 	return &cache, nil
 }
 
-func (m *ThumbnailCacheModel) GetByFileHash(fileHash string) (*schema.ThumbnailCache, error) {
-	var cache schema.ThumbnailCache
-	if err := m.DB.Where("file_hash = ?", fileHash).First(&cache).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
-		}
-		return nil, err
-	}
-	return &cache, nil
-}
-
 func (m *ThumbnailCacheModel) Create(req *schema.ThumbnailCache) error {
 	return m.DB.Create(&schema.ThumbnailCache{
 		Filepath:        req.Filepath,
