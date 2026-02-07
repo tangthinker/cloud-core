@@ -41,12 +41,12 @@ func (s *ThumbnailService) GetThumbnail(filepath string, imageWidth int, imageHe
 
 	fileHashStr := fmt.Sprintf("%x", fileHash.Sum(nil))
 
-	thumbnail, err := s.thumbnailCache.Get(filepath)
+	thumbnail, err := s.thumbnailCache.GetByHash(fileHashStr)
 	if err != nil {
 		return "", err
 	}
 
-	if thumbnail != nil && thumbnail.FileHash == fileHashStr {
+	if thumbnail != nil {
 		return thumbnail.Base64Thumbnail, nil
 	}
 
