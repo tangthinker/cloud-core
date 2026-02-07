@@ -24,18 +24,6 @@ func NewThumbnailCacheModel() *ThumbnailCacheModel {
 	return &ThumbnailCacheModel{DB: d}
 }
 
-func (m *ThumbnailCacheModel) Get(filepath string) (*schema.ThumbnailCache, error) {
-	var cache schema.ThumbnailCache
-	if err := m.DB.Where("filepath = ?", filepath).First(&cache).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, nil
-		}
-		return nil, err
-	}
-
-	return &cache, nil
-}
-
 func (m *ThumbnailCacheModel) GetByHash(fileHash string) (*schema.ThumbnailCache, error) {
 	var cache schema.ThumbnailCache
 	if err := m.DB.Where("file_hash = ?", fileHash).First(&cache).Error; err != nil {
@@ -49,16 +37,15 @@ func (m *ThumbnailCacheModel) GetByHash(fileHash string) (*schema.ThumbnailCache
 
 func (m *ThumbnailCacheModel) Create(req *schema.ThumbnailCache) error {
 	return m.DB.Create(&schema.ThumbnailCache{
-		Filepath:        req.Filepath,
 		FileHash:        req.FileHash,
 		Base64Thumbnail: req.Base64Thumbnail,
 	}).Error
 }
 
-func (m *ThumbnailCacheModel) Update(filepath string, base64Thumbnail string) error {
-	return m.DB.Model(&schema.ThumbnailCache{}).Where("filepath = ?", filepath).Update("base64_thumbnail", base64Thumbnail).Error
+func (m *ThumbnailCacheModel) Update(fileHash string, base64Thumbnail string) error {
+	return m.DB.Model(&schema.ThumbnailCache{}).Where("file_hash = ?", fileHash).Update("base64_thumbnail", base64Thumbnail).Error
 }
 
-func (m *ThumbnailCacheModel) Delete(filepath string) error {
-	return m.DB.Where("filepath = ?", filepath).Delete(&schema.ThumbnailCache{}).Error
+func (m *ThumbnailCacheModel) Delete(fileHash string) error {
+	return m.DB.Where("file_hash = ?", fileHash).Delete(&schema.ThumbnailCache{}).Error
 }

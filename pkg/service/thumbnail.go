@@ -62,19 +62,12 @@ func (s *ThumbnailService) GetThumbnail(filepath string, imageWidth int, imageHe
 		return "", err
 	}
 
-	if thumbnail == nil {
-		thumbnail = &schema.ThumbnailCache{
-			Filepath:        filepath,
-			FileHash:        fileHashStr,
-			Base64Thumbnail: thumbnailBase64,
-		}
-		if err := s.thumbnailCache.Create(thumbnail); err != nil {
-			return "", err
-		}
-	} else {
-		if err := s.thumbnailCache.Update(filepath, thumbnailBase64); err != nil {
-			return "", err
-		}
+	thumbnail = &schema.ThumbnailCache{
+		FileHash:        fileHashStr,
+		Base64Thumbnail: thumbnailBase64,
+	}
+	if err := s.thumbnailCache.Create(thumbnail); err != nil {
+		return "", err
 	}
 
 	return thumbnailBase64, nil
