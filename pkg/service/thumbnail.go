@@ -39,6 +39,11 @@ func (s *ThumbnailService) GetThumbnail(filepath string, imageWidth int, imageHe
 		return "", err
 	}
 
+	_, err = fileHash.Write([]byte(fmt.Sprintf("[%d,%d]", imageWidth, imageHeight)))
+	if err != nil {
+		return "", err
+	}
+
 	fileHashStr := fmt.Sprintf("%x", fileHash.Sum(nil))
 
 	thumbnail, err := s.thumbnailCache.GetByHash(fileHashStr)
